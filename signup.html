@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>twilight - 新規登録</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Potta+One&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+<body class="theme-yume">
+  <main class="login-box">
+    <h1>新規登録</h1>
+    <h2>新規登録してね🧸</h2>
+    <input type="email" id="signup-email" placeholder="メールアドレス" />
+    <input type="password" id="signup-password" placeholder="パスワード" />
+    <button id="signup-btn" class="cute-button">🎀 登録する</button>
+    <p style="margin-top: 1rem;">すでにアカウントがある？ <a href="login.html">ログインはこちら</a></p>
+  </main>
+
+  <script>
+    const supabase = supabase.createClient(
+      'https://kudnmzwodplfpgetjctz.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1ZG5tendvZHBsZnBnZXRqY3R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY1MzMxMDIsImV4cCI6MjA3MjEwOTEwMn0.zucWlbvxDr6rAeYNxzZ-oCurq-mNjSRpcreYemWfSZU'
+    );
+
+    document.getElementById('signup-btn').addEventListener('click', async () => {
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
+      const { error } = await supabase.auth.signUp({ email, password });
+      if (!error) {
+        alert('登録完了🎉 ログインしてね！');
+        window.location.href = 'login.html';
+      } else {
+        alert('登録失敗💦 メールとパスワードを確認してね');
+      }
+    });
+  </script>
+</body>
+</html>
