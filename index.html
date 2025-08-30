@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>twilight - タイムライン</title>
   <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Potta+One&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 </head>
 <body class="theme-yume">
@@ -19,7 +20,7 @@
       <h2>ログインしてね💖</h2>
       <input type="email" id="email" placeholder="メールアドレス" />
       <input type="password" id="password" placeholder="パスワード" />
-      <button id="login-btn">ログイン</button>
+      <button id="login-btn" class="cute-button">ログイン</button>
     </section>
 
     <!-- ログイン済みの場合 -->
@@ -28,7 +29,7 @@
       <form id="new-post">
         <textarea name="content" placeholder="いまどうしてる？" required></textarea>
         <input type="file" name="image" accept="image/*" />
-        <button type="submit">投稿する</button>
+        <button type="submit" class="cute-button">💖 投稿する</button>
       </form>
     </section>
 
@@ -73,7 +74,32 @@
       }
     });
 
-    // タイムライン読み込み（仮）
+    // 投稿処理（仮）
+    document.getElementById('new-post').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const content = e.target.content.value;
+      const imageFile = e.target.image.files[0];
+      let imageUrl = null;
+
+      if (imageFile) {
+        const { data, error } = await supabase.storage
+          .from('images')
+          .upload(`public/${Date.now()}_${imageFile.name}`, imageFile);
+        if (!error) {
+          imageUrl = supabase.storage.from('images').getPublicUrl(data.path).publicUrl;
+        }
+      }
+
+      const { error: postError } = await supabase.from('posts').insert([{ content, image_url: imageUrl }]);
+      if (!postError) {
+        e.target.reset();
+        loadTimeline();
+      } else {
+        alert('投稿失敗💦');
+      }
+    });
+
+    // タイムライン読み込み
     async function loadTimeline() {
       const { data: posts } = await supabase.from('posts').select('*').order('created_at', { ascending: false });
       const timeline = document.getElementById('timeline');
@@ -93,10 +119,3 @@
   </script>
 </body>
 </html>
-<script>
-  const toggleBtn = document.getElementById('toggle-theme');
-  toggleBtn.addEventListener('click', () => {
-    document.body.classList.toggle('theme-yume');
-    document.body.classList.toggle('theme-yami');
-  });
-</script>
