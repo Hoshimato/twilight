@@ -1,0 +1,91 @@
+/* 共通スタイル */
+body {
+  font-family: 'Potta One', cursive;
+  margin: 0;
+  padding: 0;
+  transition: background 0.3s, color 0.3s;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* ゆめかわテーマ */
+.theme-yume {
+  background: #fff0f6;
+  color: #ff66cc;
+}
+
+.theme-yume header {
+  background: #ffe6f0;
+}
+
+.theme-yume .post-card {
+  background: #ffffff;
+  border: 2px solid #ffccf9;
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 1rem;
+}
+
+/* やみかわテーマ */
+.theme-yami {
+  background: #1a1a2e;
+  color: #c084fc;
+}
+
+.theme-yami header {
+  background: #2e2e3e;
+}
+
+.theme-yami .post-card {
+  background: #2a2a3a;
+  border: 2px solid #6a0dad;
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 1rem;
+}
+
+/* 投稿カード内の要素 */
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.username {
+  font-weight: bold;
+}
+
+.timestamp {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+.post-image {
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
