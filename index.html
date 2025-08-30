@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>twilight - タイムライン</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+<body class="theme-yume">
+  <header>
+    <h1>タイムライン</h1>
+    <button id="toggle-theme">テーマ切り替え</button>
+  </header>
+
+  <main id="main-content">
+    <!-- ログインしてない場合 -->
+    <section id="login-section" style="display: none;">
+      <h2>ログインしてね💖</h2>
+      <input type="email" id="email" placeholder="メールアドレス" />
+      <input type="password" id="password" placeholder="パスワード" />
+      <button id="login-btn">ログイン</button>
+    </section>
+
+    <!-- ログイン済みの場合 -->
+    <section id="post-section" style="display: none;">
+      <h2>新しい投稿</h2>
+      <form id="new-post">
+        <textarea name="content" placeholder="いまどうしてる？" required></textarea>
+        <input type="file" name="image" accept="image/*" />
+        <button type="submit">投稿する</button>
+      </form>
+    </section>
+
+    <section id="timeline">
+      <!-- 投稿一覧がここに表示される -->
+    </section>
+  </main>
+
+  <script>
+    const supabase = supabase.createClient(
+      'https://kudnmzwodplfpgetjctz.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1ZG5tendvZHBsZnBnZXRqY3R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY1MzMxMDIsImV4cCI6MjA3MjEwOTEwMn0.zucWlbvxDr6rAeYNxzZ-oCurq-mNjSRpcreYemWfSZU'
+    );
+
+    // テーマ切り替え
+    document.getElementById('toggle-theme').addEventListener('click', () => {
+      document.body.classList.toggle('theme-yume');
+      document.body.classList.toggle('theme-yami');
+    });
+
+    // ログインチェック
+    async function checkLogin() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        document.getElementById('login-section').style.display = 'none';
+        document.getElementById('post-section').style.display = 'block';
+        loadTimeline();
+      } else {
+        document.getElementById('login-section').style.display = 'block';
+      }
+    }
+
+    // ログイン処理
+    document.getElementById('login-btn').addEventListener('click', async () => {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (!error) {
+        checkLogin();
+      } else {
+        alert('ログイン失敗💦');
+      }
+    });
+
+    // タイムライン読み込み（仮）
+    async function loadTimeline() {
+      const { data: posts } = await supabase.from('posts').select('*').order('created_at', { ascending: false });
+      const timeline = document.getElementById('timeline');
+      timeline.innerHTML = '';
+      posts.forEach(post => {
+        const card = document.createElement('div');
+        card.className = 'post-card';
+        card.innerHTML = `
+          <p>${post.content}</p>
+          ${post.image_url ? `<img src="${post.image_url}" class="post-image" />` : ''}
+        `;
+        timeline.appendChild(card);
+      });
+    }
+
+    checkLogin();
+  </script>
+</body>
+</html>
