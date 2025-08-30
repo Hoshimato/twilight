@@ -158,3 +158,36 @@ form button {
   border: 2px solid #6a0dad;
   box-shadow: 0 4px 12px rgba(100, 0, 150, 0.4);
 }
+.login-box {
+  max-width: 400px;
+  margin: 5rem auto;
+  padding: 2rem;
+  background: #ffffff;
+  border: 2px solid #ffccf9;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(255, 182, 193, 0.4);
+  text-align: center;
+}
+
+.login-box h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #ff66cc;
+}
+
+.login-box h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #a64ca6;
+}
+
+.login-box input {
+  display: block;
+  width: 80%;
+  margin: 0.5rem auto;
+  padding: 0.6rem;
+  border-radius: 12px;
+  border: 2px solid #ffcce0;
+  font-size: 1rem;
+  font-family: 'Potta One', cursive;
+}
