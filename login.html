@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>twilight - ログイン</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Potta+One&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+<body class="theme-yume">
+  <main class="login-box">
+    <h1>ログイン</h1>
+    <h2>ログインしてね💖</h2>
+    <input type="email" id="email" placeholder="メールアドレス" />
+    <input type="password" id="password" placeholder="パスワード" />
+    <button id="login-btn" class="cute-button">ログイン</button>
+  </main>
+
+  <script>
+    const supabase = supabase.createClient(
+      'https://kudnmzwodplfpgetjctz.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1ZG5tendvZHBsZnBnZXRqY3R6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTY1MzMxMDIsImV4cCI6MjA3MjEwOTEwMn0.zucWlbvxDr6rAeYNxzZ-oCurq-mNjSRpcreYemWfSZU'
+    );
+
+    document.getElementById('login-btn').addEventListener('click', async () => {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (!error) {
+        window.location.href = 'index.html'; // ログイン成功 → ホームへ
+      } else {
+        alert('ログイン失敗💦 メールとパスワードを確認してね');
+      }
+    });
+  </script>
+</body>
+</html>
